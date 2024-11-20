@@ -3,18 +3,16 @@ import React from 'react'
 import MyButton from '@/app-example/components/MyButton'
 import { useRouter } from 'expo-router'
 
-const Index = () => {
+const Menu = () => {
   const router = useRouter()
-
-  const onContinue = () => {
-    router.push("/menu")  // Redirect to the menu page
-  }
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <MyButton title="Continue" onPress={onContinue} />
+      <MyButton title="College" onPress={() => router.push("/college")} />
+      <MyButton title="Student" onPress={() => router.push("/student")} />
+      <MyButton title="Profile" onPress={() => router.push("/profile")} />
     </View>
   )
 }
 
-export default Index
+export default Menu

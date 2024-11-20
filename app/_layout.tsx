@@ -1,5 +1,3 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import { Stack } from 'expo-router'
 
 const RootLayout = () => {
@@ -8,7 +6,10 @@ const RootLayout = () => {
       <Stack.Screen name="index" />
       <Stack.Screen name="signup" />
       <Stack.Screen name="login" />
-      <Stack.Screen name="profile" /> {/* Added profile screen */}
+      <Stack.Screen name="menu" />
+      <Stack.Screen name="college" />
+      <Stack.Screen name="student" />
+      <Stack.Screen name="profile" />
     </Stack>
   )
 }
