@@ -1,55 +1,76 @@
-import { View, Text, TextInput, Button, Alert } from 'react-native'
-import React, { useState } from 'react'
-import { useRouter } from 'expo-router'
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient'; // For gradient background
+import { useRouter } from 'expo-router';
 
 const Login = () => {
-  const router = useRouter()
-  const [id, setId] = useState('')  // State for ID (email/username)
-  const [password, setPassword] = useState('')  // State for Password
+  const router = useRouter();
+  const [id, setId] = useState(''); // State for ID (email/username)
+  const [password, setPassword] = useState(''); // State for Password
 
   const handleLogin = () => {
-    // For now, assume the login is successful if the fields are not empty
     if (id && password) {
-      // Redirect to Profile Page
-      router.push("/profile")
+      router.push("/profile"); // Redirect to Profile Page
     } else {
-      // Show an error if either field is empty
-      Alert.alert("Error", "Please enter both ID and Password.")
+      Alert.alert("Error", "Please enter both ID and Password.");
     }
-  }
+  };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
+    <LinearGradient
+      colors={['#6a11cb', '#2575fc']} // Gradient colors
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}
+    >
+      <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold', marginBottom: 20 }}>
+        Welcome Back!
+      </Text>
       <TextInput
         style={{
           width: '100%',
-          padding: 10,
+          padding: 15,
           marginBottom: 15,
           borderWidth: 1,
-          borderColor: '#ccc',
-          borderRadius: 5,
+          borderColor: '#fff',
+          borderRadius: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          color: '#fff',
         }}
         placeholder="Enter ID"
+        placeholderTextColor="#ddd"
         value={id}
         onChangeText={(text) => setId(text)}
       />
       <TextInput
         style={{
           width: '100%',
-          padding: 10,
-          marginBottom: 15,
+          padding: 15,
+          marginBottom: 20,
           borderWidth: 1,
-          borderColor: '#ccc',
-          borderRadius: 5,
+          borderColor: '#fff',
+          borderRadius: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          color: '#fff',
         }}
         placeholder="Enter Password"
+        placeholderTextColor="#ddd"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Login" onPress={handleLogin} />
-    </View>
-  )
-}
+      <TouchableOpacity
+        style={{
+          width: '100%',
+          padding: 15,
+          borderRadius: 8,
+          backgroundColor: '#4c68ff',
+          alignItems: 'center',
+        }}
+        onPress={handleLogin}
+      >
+        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>Login</Text>
+      </TouchableOpacity>
+    </LinearGradient>
+  );
+};
 
-export default Login
+export default Login;
