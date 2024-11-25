@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
-const CampusSignup = () => {
+const Studentsignup = () => {
   const router = useRouter();
 
   const [collegeName, setCollegeName] = useState('');
@@ -28,7 +28,7 @@ const CampusSignup = () => {
         alert('You must agree to the Terms of Service and Privacy Policy.');
       } else {
         // Proceed to the next step (e.g., campus dashboard)
-        router.push('/campus-dashboard');
+        router.push('/student-dashboard');
       }
     } else {
       alert('Please fill all fields.');
@@ -36,7 +36,7 @@ const CampusSignup = () => {
   };
 
   const handleLogin = () => {
-    router.push('/campus'); // Redirect to login page
+    router.push('/student'); // Redirect to login page
   };
 
   return (
@@ -48,9 +48,9 @@ const CampusSignup = () => {
       />
 
       {/* Title */}
-      <Text style={styles.title}>Campus Representative Signup</Text>
+      <Text style={styles.title}>Create Your Account</Text>
       <Text style={styles.subtitle}>
-        Connect your institution with a world of opportunities.
+        Unlock your career opportunities by signing up now!
       </Text>
 
       {/* Inputs */}
@@ -237,4 +237,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CampusSignup;
+export default Studentsignup;

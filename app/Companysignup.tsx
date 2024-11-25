@@ -28,7 +28,7 @@ const CampusSignup = () => {
         alert('You must agree to the Terms of Service and Privacy Policy.');
       } else {
         // Proceed to the next step (e.g., campus dashboard)
-        router.push('/campus-dashboard');
+        router.push('/company-dashboard');
       }
     } else {
       alert('Please fill all fields.');
@@ -36,7 +36,7 @@ const CampusSignup = () => {
   };
 
   const handleLogin = () => {
-    router.push('/campus'); // Redirect to login page
+    router.push('/company'); // Redirect to login page
   };
 
   return (
@@ -48,7 +48,7 @@ const CampusSignup = () => {
       />
 
       {/* Title */}
-      <Text style={styles.title}>Campus Representative Signup</Text>
+      <Text style={styles.title}>Create a Company Account Connect with top talent effortessly!</Text>
       <Text style={styles.subtitle}>
         Connect your institution with a world of opportunities.
       </Text>

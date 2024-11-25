@@ -28,7 +28,7 @@ const CampusSignup = () => {
         alert('You must agree to the Terms of Service and Privacy Policy.');
       } else {
         // Proceed to the next step (e.g., campus dashboard)
-        router.push('/campus-dashboard');
+        router.push('/student-dashboard');
       }
     } else {
       alert('Please fill all fields.');

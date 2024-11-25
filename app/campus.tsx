@@ -26,7 +26,7 @@ const CampusLogin = () => {
   };
 
   const handleSignUp = () => {
-    router.push('/signup');
+    router.push('/campus-signup');
   };
 
   return (
