@@ -1,50 +1,109 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { useRouter } from 'expo-router';
 
-const CampusHome = () => {
+const CampusDashboard = () => {
+  const router = useRouter();
+
+  const postedJobs = [
+    { id: '1', title: 'Marketing', company: 'XYZ', location: 'Remote', time: '1h ago' },
+    { id: '2', title: 'Software Developer', company: 'XYZ', location: 'Remote', time: '6h ago' },
+  ];
+
+  const collegesForOnCampus = ['B.TECH/BE', 'DIPLOMA', 'MBA'];
+  const collegesForInternship = ['B.TECH/BE', 'DIPLOMA', 'MBA'];
+
+  const renderJobCard = ({ item }) => (
+    <View style={styles.jobCard}>
+      <Text style={styles.jobTitle}>{item.title}</Text>
+      <Text style={styles.company}>{item.company}</Text>
+      <Text style={styles.location}>{item.location}</Text>
+      <Text style={styles.time}>{item.time}</Text>
+    </View>
+  );
+
+  const renderCollegeCard = (item) => (
+    <View style={styles.collegeCard} key={item}>
+      <Text style={styles.collegeText}>{item}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {/* Profile Overview */}
-        <View style={styles.profileSection}>
-          <View style={styles.profileCard}>
-            <Image
-              source={{ uri: 'https://your-image-url.com/profile.png' }} // Replace with profile image URL
-              style={styles.profileImage}
-            />
-            <Text style={styles.profileText}>College's Profile</Text>
-            <Text style={styles.subText}>Updated 90d ago</Text>
-            <TouchableOpacity>
-              <Text style={styles.linkText}>View Profile</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.appliedCard}>
-            <Text style={styles.number}>25</Text>
-            <Text style={styles.profileText}>Company's Applied</Text>
-            <Text style={styles.subText}>Last 6d ago</Text>
-          </View>
+      {/* Profile Section */}
+      <View style={styles.profileSection}>
+        <View style={styles.profileCard}>
+          <Text style={styles.profileTitle}>College's Profile</Text>
+          <Text style={styles.profileSubtitle}>Updated 90d ago</Text>
+          <TouchableOpacity onPress={() => router.push('/profile')}>
+            <Text style={styles.viewProfile}>View Profile</Text>
+          </TouchableOpacity>
         </View>
+        <View style={styles.appliedJobsCard}>
+          <Text style={styles.profileTitle}>25</Text>
+          <Text style={styles.profileSubtitle}>Company's Applied</Text>
+          <TouchableOpacity>
+            <Text style={styles.viewProfile}>View All</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
-        {/* Job Listings */}
-        <View style={styles.section}>
+      {/* Posted Jobs Section */}
+      <View style={styles.jobsSection}>
+        <View style={styles.jobsHeader}>
           <Text style={styles.sectionTitle}>Companies Posted Jobs</Text>
-          {/* Add Job Cards */}
+          <TouchableOpacity>
+            <Text style={styles.viewAll}>View All</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+        <FlatList
+          horizontal
+          data={postedJobs}
+          renderItem={renderJobCard}
+          keyExtractor={(item) => item.id}
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+
+      {/* Companies Posting For On-Campus */}
+      <View style={styles.jobsSection}>
+        <View style={styles.jobsHeader}>
+          <Text style={styles.sectionTitle}>Companies Posting For OnCampus</Text>
+          <TouchableOpacity>
+            <Text style={styles.viewAll}>View All</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.collegeCardsContainer}>
+          {collegesForOnCampus.map(renderCollegeCard)}
+        </View>
+      </View>
+
+      {/* Companies Posting For Internship */}
+      <View style={styles.jobsSection}>
+        <View style={styles.jobsHeader}>
+          <Text style={styles.sectionTitle}>Companies Posting For Internship</Text>
+          <TouchableOpacity>
+            <Text style={styles.viewAll}>View All</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.collegeCardsContainer}>
+          {collegesForInternship.map(renderCollegeCard)}
+        </View>
+      </View>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity>
-          <Text>Services</Text>
+        <TouchableOpacity onPress={() => router.push('/services')}>
+          <Text style={styles.navIcon}>Services</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Apply</Text>
+        <TouchableOpacity onPress={() => router.push('/apply')}>
+          <Text style={styles.navIcon}>Apply</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Home</Text>
+        <TouchableOpacity onPress={() => router.push('/campus-dashboard')}>
+          <Text style={styles.navIcon}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Profile</Text>
+        <TouchableOpacity onPress={() => router.push('/profile')}>
+          <Text style={styles.navIcon}>Profile</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -52,22 +111,126 @@ const CampusHome = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  profileSection: { flexDirection: 'row', padding: 15 },
-  profileCard: { flex: 1, padding: 15, backgroundColor: '#f5f5f5', borderRadius: 10 },
-  appliedCard: { flex: 1, padding: 15, backgroundColor: '#f5f5f5', borderRadius: 10 },
-  profileImage: { width: 50, height: 50, borderRadius: 25 },
-  profileText: { fontSize: 14, fontWeight: 'bold' },
-  subText: { fontSize: 12, color: '#888' },
-  section: { padding: 15 },
-  sectionTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+    padding: 15,
+  },
+  profileSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  profileCard: {
+    flex: 1,
+    marginRight: 10,
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  appliedJobsCard: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  profileTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  profileSubtitle: {
+    color: '#888',
+    marginBottom: 10,
+  },
+  viewProfile: {
+    color: '#007bff',
+    textDecorationLine: 'underline',
+  },
+  jobsSection: {
+    marginBottom: 20,
+  },
+  jobsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  viewAll: {
+    color: '#007bff',
+    textDecorationLine: 'underline',
+  },
+  jobCard: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginRight: 10,
+    borderRadius: 10,
+    width: 200,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  jobTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  company: {
+    color: '#888',
+    marginBottom: 5,
+  },
+  location: {
+    color: '#007bff',
+    marginBottom: 5,
+  },
+  time: {
+    color: '#555',
+  },
+  collegeCardsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  collegeCard: {
+    backgroundColor: '#fff',
+    padding: 20,
+    marginRight: 10,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  collegeText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   bottomNav: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
     padding: 15,
     borderTopWidth: 1,
-    borderColor: '#ddd',
+    borderTopColor: '#ddd',
+  },
+  navIcon: {
+    fontSize: 16,
+    color: '#007bff',
   },
 });
 
-export default CampusHome;
+export default CampusDashboard;

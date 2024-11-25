@@ -19,7 +19,7 @@ const CompanyLogin = () => {
   const handleLogin = () => {
     if (email && password) {
       // Proceed to the company dashboard (or next screen)
-      router.push('/Company-dashboard');
+      router.push('/company-dashboard');
     } else {
       alert('Please enter both email and password.');
     }
