@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  CheckBox,
+
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Checkbox } from 'expo-checkbox'; // Import Expo CheckBox
+
 
 const CompanyLogin = () => {
   const router = useRouter();
@@ -63,7 +65,7 @@ const CompanyLogin = () => {
       {/* Remember Me & Forgot Password */}
       <View style={styles.row}>
         <View style={styles.rowLeft}>
-          <CheckBox
+          <Checkbox
             value={rememberMe}
             onValueChange={setRememberMe}
             style={styles.checkbox}

@@ -5,10 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  CheckBox,
+  
   Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Checkbox } from 'expo-checkbox'; // Import Expo CheckBox
+
 
 const Studentsignup = () => {
   const router = useRouter();
@@ -96,7 +98,7 @@ const Studentsignup = () => {
 
       {/* Agreement Section */}
       <View style={styles.row}>
-        <CheckBox
+        <Checkbox
           value={agreeToTerms}
           onValueChange={setAgreeToTerms}
           style={styles.checkbox}
