@@ -5,17 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-
   Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Checkbox } from 'expo-checkbox'; // Import Expo CheckBox
 
-
-const CampusSignup = () => {
+const CompanySignup = () => {
   const router = useRouter();
 
-  const [collegeName, setCollegeName] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -23,14 +21,14 @@ const CampusSignup = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const handleSignup = () => {
-    if (collegeName && email && contactNumber && password && confirmPassword) {
+    if (companyName && email && contactNumber && password && confirmPassword) {
       if (password !== confirmPassword) {
         alert('Passwords do not match.');
       } else if (!agreeToTerms) {
         alert('You must agree to the Terms of Service and Privacy Policy.');
       } else {
-        // Proceed to the next step (e.g., campus dashboard)
-        router.push('/company-dashboard');
+        // Proceed to the next step (e.g., company dashboard)
+        router.push('/CompanyLogin');
       }
     } else {
       alert('Please fill all fields.');
@@ -38,7 +36,7 @@ const CampusSignup = () => {
   };
 
   const handleLogin = () => {
-    router.push('/company'); // Redirect to login page
+    router.push('/CompanyLogin'); // Redirect to login page
   };
 
   return (
@@ -50,22 +48,22 @@ const CampusSignup = () => {
       />
 
       {/* Title */}
-      <Text style={styles.title}>Create a Company Account Connect with top talent effortessly!</Text>
+      <Text style={styles.title}>Create a Company Account. Connect with top talent effortlessly!</Text>
       <Text style={styles.subtitle}>
-        Connect your institution with a world of opportunities.
+        Expand your business and connect with the best candidates.
       </Text>
 
       {/* Inputs */}
       <TextInput
         style={styles.input}
-        placeholder="Enter Your College Name"
+        placeholder="Enter Your Company Name"
         placeholderTextColor="#888"
-        value={collegeName}
-        onChangeText={(text) => setCollegeName(text)}
+        value={companyName}
+        onChangeText={(text) => setCompanyName(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Your College Email Address"
+        placeholder="Your Company Email Address"
         placeholderTextColor="#888"
         keyboardType="email-address"
         value={email}
@@ -239,4 +237,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CampusSignup;
+export default CompanySignup;

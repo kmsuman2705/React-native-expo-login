@@ -8,15 +8,15 @@ const Index = () => {
 
   // Handlers for each button
   const goToCampus = () => {
-    router.push("/campus")
+    router.push("/CampusLogin")
   }
 
   const goToCompany = () => {
-    router.push("/company")
+    router.push("/CompanyLogin")
   }
 
   const goToStudent = () => {
-    router.push("/student")
+    router.push("/StudentLogin")
   }
 
   return (

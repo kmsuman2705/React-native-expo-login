@@ -30,7 +30,7 @@ const Studentsignup = () => {
         alert('You must agree to the Terms of Service and Privacy Policy.');
       } else {
         // Proceed to the next step (e.g., campus dashboard)
-        router.push('/student-dashboard');
+        router.push('/StudentLogin');
       }
     } else {
       alert('Please fill all fields.');
@@ -38,7 +38,7 @@ const Studentsignup = () => {
   };
 
   const handleLogin = () => {
-    router.push('/student'); // Redirect to login page
+    router.push('/StudentLogin'); // Redirect to login page
   };
 
   return (

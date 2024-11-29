@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router'
+import { Stack } from 'expo-router';
 
 const RootLayout = () => {
   return (
@@ -8,8 +8,11 @@ const RootLayout = () => {
       <Stack.Screen name="signup" />
       <Stack.Screen name="login" />
       <Stack.Screen name="profile" />
+      {/* Add the new routes for company and student login */}
+      <Stack.Screen name="company" />
+      <Stack.Screen name="student" />
     </Stack>
-  )
+  );
 }
 
-export default RootLayout
+export default RootLayout;

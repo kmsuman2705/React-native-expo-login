@@ -5,14 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-
   Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Checkbox } from 'expo-checkbox'; // Import Expo CheckBox
+import { register } from '../app/api'; // Import the register function from api.js
 
-
-const CampusSignup = () => {
+const Studentsignup = () => {
   const router = useRouter();
 
   const [collegeName, setCollegeName] = useState('');
@@ -22,24 +21,53 @@ const CampusSignup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-  const handleSignup = () => {
-    if (collegeName && email && contactNumber && password && confirmPassword) {
-      if (password !== confirmPassword) {
-        alert('Passwords do not match.');
-      } else if (!agreeToTerms) {
-        alert('You must agree to the Terms of Service and Privacy Policy.');
-      } else {
-        // Proceed to the next step (e.g., campus dashboard)
-        router.push('/campus-dashboard');
-      }
-    } else {
+  // Email validation regex
+  const isValidEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  // Phone number validation (just checks if it's at least 10 digits)
+  const isValidPhone = (phone: string) => {
+    return phone.length >= 10;
+  };
+
+  const handleSignup = async () => {
+    if (!collegeName || !email || !contactNumber || !password || !confirmPassword) {
       alert('Please fill all fields.');
+    } else if (!isValidEmail(email)) {
+      alert('Please enter a valid email address.');
+    } else if (!isValidPhone(contactNumber)) {
+      alert('Please enter a valid contact number.');
+    } else if (password !== confirmPassword) {
+      alert('Passwords do not match.');
+    } else if (!agreeToTerms) {
+      alert('You must agree to the Terms of Service and Privacy Policy.');
+    } else {
+      try {
+        // Prepare data for API call
+        const data = { collegeName, email, contactNumber, password };
+
+        // Call the register API
+        const response = await register(data);
+
+        if (response.success) {
+          alert(response.message);
+          router.push('/CampusLogin'); // Redirect to login page on success
+        } else {
+          alert('Registration failed. Please try again.');
+        }
+      } catch (error: any) {
+        alert(error.message || 'An error occurred during registration.');
+      }
     }
   };
 
   const handleLogin = () => {
-    router.push('/campus'); // Redirect to login page
+    router.push('/CampusLogin'); // Redirect to login page
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -50,9 +78,9 @@ const CampusSignup = () => {
       />
 
       {/* Title */}
-      <Text style={styles.title}>Campus Representative Signup</Text>
+      <Text style={styles.title}>Create Your Account</Text>
       <Text style={styles.subtitle}>
-        Connect your institution with a world of opportunities.
+        Unlock your career opportunities by signing up now!
       </Text>
 
       {/* Inputs */}
@@ -239,4 +267,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CampusSignup;
+export default Studentsignup;

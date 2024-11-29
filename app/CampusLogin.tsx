@@ -6,63 +6,111 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Checkbox } from 'expo-checkbox'; // Import Expo CheckBox
+import { Checkbox } from 'expo-checkbox';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { login } from './api'; // Ensure this is properly implemented in the api.js file
 
-
-const CompanyLogin = () => {
+const CampusLogin = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    if (email && password) {
-      // Proceed to the company dashboard (or next screen)
-      router.push('/company-dashboard');
-    } else {
-      alert('Please enter both email and password.');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password.');
+      return;
+    }
+  
+    // Basic email validation
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Invalid Email', 'Please enter a valid email address.');
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
+      // Call the login API
+      const response = await login({ email, password });
+  
+      console.log('Login response:', response); // Log the full response to debug
+  
+      // Check if the response contains a token (indicating successful login)
+      if (response.token) {
+        console.log("Login successful!");
+        Alert.alert('Success', 'Login successful!');
+  
+        if (rememberMe) {
+          // Implement the functionality to persist the login information if needed
+          console.log('Remember me selected, saving user info...');
+        }
+  
+        // Store the token locally (for example, in AsyncStorage or your preferred method)
+        // For now, you can log it or store it for further use
+        console.log('JWT Token:', response.token);
+  
+        // Navigate to the campus dashboard
+        router.push('/campus-dashboard');
+      } else {
+        console.log('Login failed: No token returned');
+        Alert.alert('Login Failed', response.message || 'Invalid credentials.');
+      }
+    } catch (error) {
+      console.error('Login error:', error); // Log detailed error info for debugging
+      Alert.alert('Error', 'An error occurred during login. Please try again later.');
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
-
+  
   const handleSignUp = () => {
-    router.push('/Companysignup');
+    router.push('/campus-signup');
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   return (
     <View style={styles.container}>
-      {/* Top Image */}
       <Image
         source={{ uri: 'https://your-image-url.com/handshake.png' }} // Replace with your image URL
         style={styles.image}
       />
+      <Text style={styles.title}>Connecting Campuses with Talent.</Text>
+      <Text style={styles.subtitle}>Welcome, Campus Partner!</Text>
 
-      {/* Welcome Message */}
-      <Text style={styles.title}>Where Businesses Meet Talent.</Text>
-      <Text style={styles.subtitle}>Welcome, Business Partner!</Text>
-
-      {/* Email Input */}
       <TextInput
         style={styles.input}
         placeholder="Email Address"
         placeholderTextColor="#888"
         value={email}
         onChangeText={(text) => setEmail(text)}
+        keyboardType="email-address"
       />
 
-      {/* Password Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#888"
-        secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#888"
+          secureTextEntry={!passwordVisible}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.passwordToggle}>
+          <Icon name={passwordVisible ? 'eye-slash' : 'eye'} size={20} color="#444" />
+        </TouchableOpacity>
+      </View>
 
-      {/* Remember Me & Forgot Password */}
       <View style={styles.row}>
         <View style={styles.rowLeft}>
           <Checkbox
@@ -77,23 +125,28 @@ const CompanyLogin = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Login Button */}
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>LOGIN</Text>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.loginButtonText}>LOGIN</Text>
+        )}
       </TouchableOpacity>
 
-      {/* Or Login With */}
       <Text style={styles.orText}>──────────── Or Login With ────────────</Text>
       <View style={styles.socialRow}>
         <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialText}>G</Text> {/* Replace with icon */}
+          <Icon name="google" size={20} color="#444" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialText}>in</Text> {/* Replace with icon */}
+          <Icon name="linkedin" size={20} color="#444" />
         </TouchableOpacity>
       </View>
 
-      {/* Sign Up Link */}
       <Text style={styles.signupText}>
         Don’t have an account?{' '}
         <Text style={styles.signupLink} onPress={handleSignUp}>
@@ -103,6 +156,7 @@ const CompanyLogin = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -137,7 +191,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderColor: 'black',
     borderWidth: 1,
-    color:'black',
+    color: 'black',
+  },
+  passwordContainer: {
+    width: '100%',
+    position: 'relative',
+  },
+  passwordToggle: {
+    position: 'absolute',
+    right: 15,
+    top: 15,
   },
   row: {
     flexDirection: 'row',
@@ -211,4 +274,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CompanyLogin;
+export default CampusLogin;

@@ -6,13 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Checkbox } from 'expo-checkbox'; // Import Expo CheckBox
 
-
-const StudentLogin = () => {
+const CampusLogin = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,15 +18,15 @@ const StudentLogin = () => {
 
   const handleLogin = () => {
     if (email && password) {
-      // Proceed to the student dashboard (or next screen)
-      router.push('/student-dashboard');
+      // Proceed to the campus dashboard (or next screen)
+      router.push('/campus-dashboard');
     } else {
       alert('Please enter both email and password.');
     }
   };
 
   const handleSignUp = () => {
-    router.push('/Studentsignup');
+    router.push('/campus-signup');
   };
 
   return (
@@ -40,8 +38,8 @@ const StudentLogin = () => {
       />
 
       {/* Welcome Message */}
-      <Text style={styles.title}>Your Gateway to Opportunities!</Text>
-      <Text style={styles.subtitle}>Welcome, Future Talent!</Text>
+      <Text style={styles.title}>Connecting Campuses with Talent.</Text>
+      <Text style={styles.subtitle}>Welcome, Campus Partner!</Text>
 
       {/* Email Input */}
       <TextInput
@@ -50,6 +48,7 @@ const StudentLogin = () => {
         placeholderTextColor="#888"
         value={email}
         onChangeText={(text) => setEmail(text)}
+        keyboardType="email-address"
       />
 
       {/* Password Input */}
@@ -211,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentLogin;
+export default CampusLogin;
